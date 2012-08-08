@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% load helper %}
+{% block header %}
+{% include 'head.html' with vendor="active" %}
+{% endblock %}
+{% block content %}
+<div class="page-header">
+	<h1>Add Vendors</h1>
+</div>
+<form class="form-horizontal" method="post">
+  	<fieldset>
+    	{% csrf_token %}
+		{{ form.company|form_field }}
+		{{ form.address1|form_field }}
+		{{ form.address2|form_field }}
+		{{ form.city_municipality|form_field }}
+		{{ form.state_region_province|form_field }}
+		{{ form.country|form_field }}
+		<div class="form-actions">
+            <button type="submit" class="btn btn-primary">Save changes</button>
+            <button class="btn">Cancel</button>
+        </div>
+  	</fieldset>
+</form>
+{% endblock %}
