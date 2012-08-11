@@ -5,17 +5,30 @@
 {% endblock %}
 {% block content %}
 <div class="page-header">
-	<h1>Add Vendors</h1>
+	<h2>Add Vendors</h2>
 </div>
+
+{% if messages %}
+<div class="alert alert-success">
+  	<button class="close" data-dismiss="alert">×</button>
+  	{% for message in messages %}
+  		{{ message }}
+  	{% endfor %}
+</div>	
+{% endif %}
 <form class="form-horizontal" method="post">
   	<fieldset>
     	{% csrf_token %}
 		{{ form.company|form_field }}
+		{{ form.nature_of_business|form_field }}
 		{{ form.address1|form_field }}
 		{{ form.address2|form_field }}
 		{{ form.city_municipality|form_field }}
 		{{ form.state_region_province|form_field }}
 		{{ form.country|form_field }}
+		{{ form.telephone|form_field }}
+		{{ form.fax|form_field }}
+		{{ form.date_accredited|form_field }}
 		<div class="form-actions">
             <button type="submit" class="btn btn-primary">Save changes</button>
             <button class="btn">Cancel</button>

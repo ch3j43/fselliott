@@ -23,8 +23,7 @@ class Vendor(models.Model):
 	state_region_province = models.CharField(db_column='state_region_province', max_length=255)
 	country = models.ForeignKey(Country, db_column='country_id', null=True)
 	telephone = models.CharField(db_column='telephone', max_length=100,blank=True)
-	fax = models.CharField(db_column='fax', max_length=100,blank=True)
-	nature_of_business = models.CharField(db_column='nature_of_business', max_length=255, blank=True)
+	fax = models.CharField(db_column='fax', max_length=100,blank=True)	
 	date_accredited = models.CharField(db_column='date_accredited', max_length=100)
 	business_nature = models.ForeignKey(NatureOfBusiness, db_column='nature_of_business_id', null=True)
 	created = models.DateField(db_column='created_date', auto_now_add=True, blank=True)
@@ -33,19 +32,7 @@ class Vendor(models.Model):
 		db_table = 'vendors'
 		ordering = ["id"]
 		verbose_name = 'Vendor'
-
-class Accreditation(models.Model):
-	id = models.AutoField(db_column='id', primary_key=True)
-	vendor = models.ForeignKey(Vendor, db_column='vendor_id')
-	scan_docs = models.CharField(db_column='scan_docs',max_length=100)
-	uploaded_by = models.IntegerField(db_column='uploaded_by')
-	created = models.DateField(db_column='created_date', auto_now_add=True, blank=True)
-
-	class Meta:
-		db_table = 'accreditations'
-		ordering = ["id"]
-		verbose_name = 'Accreditations'
-
+		
 class Contact(models.Model):
 	id = models.AutoField(db_column='id', primary_key=True)
 	name = models.CharField(db_column='name', max_length=255)
@@ -63,6 +50,18 @@ class Contact(models.Model):
 		db_table = 'contacts'
 		ordering = ['name']
 		verbose_name = 'Contacts'
+
+class Accreditation(models.Model):
+	id = models.AutoField(db_column='id', primary_key=True)
+	vendor = models.ForeignKey(Vendor, db_column='vendor_id')
+	scan_docs = models.CharField(db_column='scan_docs',max_length=100)
+	uploaded_by = models.IntegerField(db_column='uploaded_by')
+	created = models.DateField(db_column='created_date', auto_now_add=True, blank=True)
+
+	class Meta:
+		db_table = 'accreditations'
+		ordering = ["id"]
+		verbose_name = 'Accreditations'
 		
 class Item(models.Model):
 	id = models.AutoField(db_column='id', primary_key=True)

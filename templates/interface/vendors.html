@@ -17,15 +17,17 @@
 		</tr>
 	</thead>
 	<tbody>
+		{% for vendor in vendors %}
 		<tr>
-			<td></td>
-			<td></td>
-			<td></td>
-			<td></td>
-			<td></td>
-			<td></td>
-			<td></td>
+			<td><a href="#">{{ vendor.id }}</a></td>
+			<td>{{ vendor.company }}</td>
+			<td>{{ vendor.address1 }}</td>
+			<td>{{ vendor.address2 }}</td>
+			<td>{{ vendor.city_municipality }}</td>
+			<td>{{ vendor.state_region_province }}</td>
+			<td>{{ vendor.country.name }}</td>
 		</tr>
+		{% endfor %}
 	</tbody>
 </table>
 {% endblock %}
