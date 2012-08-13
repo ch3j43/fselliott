@@ -22,6 +22,7 @@ class Vendor(models.Model):
 	city_municipality = models.CharField(db_column='city_municipality', max_length=255)
 	state_region_province = models.CharField(db_column='state_region_province', max_length=255)
 	country = models.ForeignKey(Country, db_column='country_id', null=True)
+	zip = models.CharField(db_column='zip', max_length=100, blank=True)
 	telephone = models.CharField(db_column='telephone', max_length=100,blank=True)
 	fax = models.CharField(db_column='fax', max_length=100,blank=True)	
 	date_accredited = models.CharField(db_column='date_accredited', max_length=100)

@@ -22,8 +22,10 @@ urlpatterns += patterns('fselliott.views.interface',
     url(r'^$', 'home', {}, name='home'),
     url(r'^vendors/$', 'vendors', {}, name='vendors'),
     url(r'^vendors/add$', 'add_vendor', {}, name='add_vendor'),
-    url(r'^vendors/edit', 'edit_vendor', {}, name='edit_vendor'),
+    url(r'^vendors/edit/(?P<vid>\w+)', 'edit_vendor', {}, name='edit_vendor'),
     url(r'^customers/$', 'customers', {}, name='customers'),
+    url(r'^contacts/vendor/(?P<vid>\w+)', 'vendor_contact_details', {}, name="vendor_contacts"),
+    url(r'^contacts/add/(?P<frm>\w+)/(?P<vid>\w+)', 'new_vendor_contact', {}, name="new_vendor_contact"),
 )
 
 urlpatterns += patterns('fselliott.views.auth',

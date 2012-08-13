@@ -21,6 +21,8 @@ class VendorForm(forms.Form):
     
     countries = Country.objects.all().values_list('id','name')
     country = forms.ChoiceField(label=_("Country"), choices=countries, widget=forms.Select(attrs={'class':'span6'}))
+    zip = CustomCharField(label=_("Zip/Postal Code"), required=False, widget=forms.Textarea(attrs={'class':'span6'}))
+    
     telephone = CustomCharField(label=_("Telephone"), required=False, widget=forms.TextInput(attrs={'class':'span6'}))
     fax = CustomCharField(label=_("Fax"), required=False, widget=forms.TextInput(attrs={'class':'span6'}))    
     date_accredited = CustomCharField(label=_("Date Accredited"), required=False, widget=forms.TextInput(attrs={'class':'span6'}))
