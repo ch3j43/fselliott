@@ -1,0 +1,66 @@
+{% extends "base.html" %}
+{% block header %}
+{% include 'head.html' with vendor='active' %}
+{% endblock %}
+{% block content %}
+<ul class="breadcrumb">
+	<li>
+		<a href="{% url home %}">Home</a> <span class="divider">/</span>
+	</li>
+	<li>
+		<a href="{% url vendors %}">Vendors</a> <span class="divider">/</span>
+	</li>
+	<li>
+		<a href="{% url vendors %}">Vendors</a> <span class="divider">/</span>
+	</li>
+	<li class="active">New Vendor Contact</li>
+</ul>
+<div class="page-header">
+  	<h2>Vendor Contacts</h2>
+</div>
+<select name="vendors" id="vendors">
+	{% for v in vendors %}
+	<option {% if v.id == vendor.id %}selected="selected"{% endif %} value="{{ v.id }}">{{ v.company }}</option>
+	{% endfor %}
+</select>
+<div class="btn-toolbar">
+	<div class="btn-group">
+		<button class="btn btn-small">Actions</button>
+		<button class="btn btn-small dropdown-toggle" data-toggle="dropdown"><span class="caret"></span></button>
+		<ul class="dropdown-menu">
+			<li><a href="{% url new_vendor_contact 'vendor' vendor.id %}">New Contact</a></li>
+			<li><a href="#">Delete Contacts</a></li>
+        </ul>
+    </div><!-- /btn-group -->
+</div>
+<table class="table table-striped">
+	<thead>
+		<tr>
+			<th>ID</th>
+			<th>Name</th>
+			<th>Position</th>
+			<th>Department</th>
+			<th>Email</th>
+			<th>Mobile</th>
+			<th>Telephone</th>
+			<th>Fax</th>
+		</tr>
+	</thead>
+	<tbody>
+		{% for contact in conrtacts %}
+		<tr>
+			<td>{{ contact.name }}</td>
+			<td>{{ contact.name }}</td>
+			<td>{{ contact.position }}</td>
+			<td>{{ contact.department.name }}</td>
+			<td>{{ contact.email }}</td>
+			<td>{{ contact.mobile }}</td>
+			<td>{{ contact.telephone }}</td>
+			<td>{{ contact.fax }}</td>
+		</tr>
+		{% empty %}
+
+		{% endfor %}
+	</tbody>
+</table>
+{% endblock %}s

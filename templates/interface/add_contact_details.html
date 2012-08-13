@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+{% block header %}
+{% include 'head.html' with vendor='active' %}
+{% endblock %}
+{% block content %}
+<ul class="breadcrumb">
+	<li>
+		<a href="{% url home %}">Home</a> <span class="divider">/</span>
+	</li>
+	<li>
+		<a href="{% url vendors %}">Vendors</a> <span class="divider">/</span>
+	</li>
+	<li>
+		<a href="{% url vendor_contacts vendor.id %}">Vendor Contacts ({{ vendor.company }})</a> <span class="divider">/</span>
+	</li>
+	<li class="active">New Vendor Contact</li>
+</ul>
+<div class="page-header">
+  	<h2>New Vendor Contact</h2>
+</div>
+<table class="table table-striped">
+	<thead>
+		<tr>
+			<th>ID</th>
+			<th>Name</th>
+			<th>Position</th>
+			<th>Department</th>
+			<th>Email</th>
+			<th>Mobile</th>
+			<th>Telephone</th>
+			<th>Fax</th>
+		</tr>
+	</thead>
+	<tbody>
+		{% for contact in conrtacts %}
+		<tr>
+			<td>{{ contact.name }}</td>
+			<td>{{ contact.name }}</td>
+			<td>{{ contact.position }}</td>
+			<td>{{ contact.department.name }}</td>
+			<td>{{ contact.email }}</td>
+			<td>{{ contact.mobile }}</td>
+			<td>{{ contact.telephone }}</td>
+			<td>{{ contact.fax }}</td>
+		</tr>
+		{% empty %}
+
+		{% endfor %}
+	</tbody>
+</table>
+{% endblock %}s
