@@ -10,29 +10,34 @@
 	<li>
 		<a href="{% url vendors %}">Vendors</a> <span class="divider">/</span>
 	</li>
-	<li>
-		<a href="{% url vendors %}">Vendors</a> <span class="divider">/</span>
-	</li>
-	<li class="active">New Vendor Contact</li>
+	<li class="active">Vendor Contacts</li>
 </ul>
 <div class="page-header">
   	<h2>Vendor Contacts</h2>
 </div>
-<select name="vendors" id="vendors">
-	{% for v in vendors %}
-	<option {% if v.id == vendor.id %}selected="selected"{% endif %} value="{{ v.id }}">{{ v.company }}</option>
-	{% endfor %}
-</select>
+<div class="control-group">
+	<div class="controls">
+		<div class="input-prepend  input-append">
+			<span class="add-on">Vendors</span>
+			<select name="vendors" id="ddlVendors">
+				{% for v in vendors %}
+				<option {% if v.id == vendor.id %}selected="selected"{% endif %} value="{{ v.id }}">{{ v.company }}</option>
+				{% endfor %}
+			</select>
+		</div>
+	</div>
+</div>
 <div class="btn-toolbar">
 	<div class="btn-group">
 		<button class="btn btn-small">Actions</button>
 		<button class="btn btn-small dropdown-toggle" data-toggle="dropdown"><span class="caret"></span></button>
 		<ul class="dropdown-menu">
-			<li><a href="{% url new_vendor_contact 'vendor' vendor.id %}">New Contact</a></li>
-			<li><a href="#">Delete Contacts</a></li>
+			<li><a href="{% url new_vendor_contact vendor.id %}">New Contact</a></li>
+			<li><a data-toggle="modal" href="#myModal">Delete Contacts</a></li>
         </ul>
     </div><!-- /btn-group -->
 </div>
+{% csrf_token %}
 <table class="table table-striped">
 	<thead>
 		<tr>
@@ -44,12 +49,15 @@
 			<th>Mobile</th>
 			<th>Telephone</th>
 			<th>Fax</th>
+			<th></th>
 		</tr>
 	</thead>
 	<tbody>
-		{% for contact in conrtacts %}
-		<tr>
-			<td>{{ contact.name }}</td>
+		{% for contact in contacts %}
+		<tr id="tr{{ contact.id }}">
+			<td>
+				<label class="checkbox"><input type="checkbox" name="cid" id="cid{{ contact.id }}" value="{{ contact.id }}">{{ contact.id }}</label>
+			</td>
 			<td>{{ contact.name }}</td>
 			<td>{{ contact.position }}</td>
 			<td>{{ contact.department.name }}</td>
@@ -57,10 +65,67 @@
 			<td>{{ contact.mobile }}</td>
 			<td>{{ contact.telephone }}</td>
 			<td>{{ contact.fax }}</td>
+			<td>
+				<div class="btn-group">
+					<button class="btn btn-mini">Actions</button>
+					<button class="btn btn-mini dropdown-toggle" data-toggle="dropdown"><span class="caret"></span></button>
+					<ul class="dropdown-menu pull-right">
+						<li><a href="{% url edit_vendor_contact contact.id %}">Edit</a></li>
+						<li><a data-toggle="modal" href="#myModal" rel="{{ contact.id }}" class="btnDelete">Delete</a></li>
+			        </ul>
+			    </div>
+			</td>
 		</tr>
 		{% empty %}
-
+		<tr>
+			<td colspan="8">No Contacts</td>
+		</tr>
 		{% endfor %}
 	</tbody>
 </table>
-{% endblock %}s
+<div class="modal hide" id="myModal">
+  	<div class="modal-header">
+    	<button type="button" class="close" data-dismiss="modal">×</button>
+    	<h3>Confirm Delete</h3>
+  	</div>
+  	<div class="modal-body">
+    	<p>Are you sure want to delete this contact?</p>
+  	</div>
+  	<div class="modal-footer">
+    	<a href="#" id="btnDismiss" class="btn" data-dismiss="modal">Cancel</a>
+    	<a href="#" id="modalConfirm" class="btn btn-primary">Confirm</a>
+  	</div>
+</div>
+{% endblock %}
+{% block javascript %}
+<script src="/media/js/bootstrap-modal.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){
+	$('.btnDelete').click(function(){
+		$('input:checkbox').each(function(){
+			this.checked = false;
+		});
+		var cid = $(this).attr('rel');
+		document.getElementById('cid'+cid).checked = true;
+	});
+	$('#ddlVendors').change(function(){
+		var u = '/vendor/contacts/' + this.value;
+		window.location.href = u;
+	});
+	$('#modalConfirm').click(function(){
+		var has_checked = false;
+		var del_url = '{% url delete_contact %}';
+		$('input:checkbox').each(function(){
+			if (this.checked){
+				var cid = this.value;	
+				$.post(del_url, {csrfmiddlewaretoken:$('input:hidden').val(), id:cid}, function(res){
+					if (res == 1)
+						$('#tr'+cid).remove();					
+				});
+			}
+			$('#btnDismiss').trigger('click');
+		});
+	});
+});
+</script>
+{% endblock %}

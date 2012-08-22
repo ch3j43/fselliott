@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% load helper %}
 {% block header %}
 {% include 'head.html' with vendor='active' %}
 {% endblock %}
@@ -13,39 +14,33 @@
 	<li>
 		<a href="{% url vendor_contacts vendor.id %}">Vendor Contacts ({{ vendor.company }})</a> <span class="divider">/</span>
 	</li>
-	<li class="active">New Vendor Contact</li>
+	<li class="active">{{ header }}</li>
 </ul>
 <div class="page-header">
-  	<h2>New Vendor Contact</h2>
+  	<h2>{{ header }}</h2>
 </div>
-<table class="table table-striped">
-	<thead>
-		<tr>
-			<th>ID</th>
-			<th>Name</th>
-			<th>Position</th>
-			<th>Department</th>
-			<th>Email</th>
-			<th>Mobile</th>
-			<th>Telephone</th>
-			<th>Fax</th>
-		</tr>
-	</thead>
-	<tbody>
-		{% for contact in conrtacts %}
-		<tr>
-			<td>{{ contact.name }}</td>
-			<td>{{ contact.name }}</td>
-			<td>{{ contact.position }}</td>
-			<td>{{ contact.department.name }}</td>
-			<td>{{ contact.email }}</td>
-			<td>{{ contact.mobile }}</td>
-			<td>{{ contact.telephone }}</td>
-			<td>{{ contact.fax }}</td>
-		</tr>
-		{% empty %}
-
-		{% endfor %}
-	</tbody>
-</table>
+{% if messages %}
+<div class="alert alert-success">
+  	<button class="close" data-dismiss="alert">×</button>
+  	{% for message in messages %}
+  		{{ message }}
+  	{% endfor %}
+</div>	
+{% endif %}
+<form class="form-horizontal" method="post">
+  	<fieldset>
+    	{% csrf_token %}
+		{{ form.name|form_field }}
+		{{ form.position|form_field }}
+		{{ form.department|form_field }}
+		{{ form.email|form_field }}
+		{{ form.mobile|form_field }}
+		{{ form.telephone|form_field }}
+		{{ form.fax|form_field }}
+		<div class="form-actions">
+            <button type="submit" class="btn btn-primary">Save changes</button>
+            <a href="{% url vendor_contacts vendor.id %}" class="btn">Cancel</a>
+        </div>
+  	</fieldset>
+</form>
 {% endblock %}s

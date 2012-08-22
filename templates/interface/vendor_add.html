@@ -11,7 +11,7 @@
 	<li>
 		<a href="{% url vendors %}">Vendors</a> <span class="divider">/</span>
 	</li>
-	<li class="active">Add Vendor</li>
+	<li class="active">{{ heading }}</li>
 </ul>
 <div class="page-header">
 	<h2>{{ heading }}</h2>
@@ -35,6 +35,7 @@
 		{{ form.city_municipality|form_field }}
 		{{ form.state_region_province|form_field }}
 		{{ form.country|form_field }}
+		{{ form.zip|form_field }}
 		{{ form.telephone|form_field }}
 		{{ form.fax|form_field }}
 		{{ form.date_accredited|form_field }}
